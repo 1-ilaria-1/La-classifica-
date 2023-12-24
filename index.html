@@ -122,64 +122,31 @@
   measurementId: "G-K7QC5SDTMY"
     };
 
-    // Inizializza Firebase
-    firebase.initializeApp(firebaseConfig);
+    // Includi Firebase SDK e il resto dello script rimane invariato
+   
+  // Recupera dati da Firebase e popola la classifica, il resto rimane invariato
 
-    // Riferimento al database
-    const db = firebase.database();
-    const classificaRef = db.ref('classifica');
+  document.getElementById("assegnazionePunteggio").addEventListener("submit", function (event) {
+    event.preventDefault();
 
-    // Recupera dati da Firebase e popola la classifica
-    classificaRef.once('value', (snapshot) => {
-      const classificaData = [];
-      snapshot.forEach((childSnapshot) => {
-        const childData = childSnapshot.val();
-        classificaData.push({
-          posizione: childData.posizione,
-          nome: childData.nome,
-          punteggio: childData.punteggio
-        });
-      });
+    const nome = document.getElementById("nome").value;
+    const azione = document.getElementById("punteggio").value;
+    const ammontarePunti = parseInt(document.getElementById("ammontarePunti").value);
 
-      // Funzione per aggiornare la classifica
-      function updateClassifica() {
-        const tableBody = document.querySelector("#classifica tbody");
-        tableBody.innerHTML = "";
+    let punteggioAggiunto = 0;
 
-        // Ordina la classifica in base al punteggio (dal più alto al più basso)
-        const classificaOrdinata = classificaData.sort((a, b) => b.punteggio - a.punteggio);
+    if (azione === "add") {
+      punteggioAggiunto = ammontarePunti;
+    } else if (azione === "subtract") {
+      punteggioAggiunto = -ammontarePunti;
+    }
 
-        classificaOrdinata.forEach(partecipante => {
-          tableBody.innerHTML += `<tr><td>${partecipante.posizione}</td><td>${partecipante.nome}</td><td>${partecipante.punteggio}</td></tr>`;
-        });
-      }
+    // Aggiungi i dati al database Firebase
+    classificaRef.push({ posizione: "", nome: nome, punteggio: punteggioAggiunto });
 
-      updateClassifica();
-    });
-
-    document.getElementById("assegnazionePunteggio").addEventListener("submit", function (event) {
-      event.preventDefault();
-
-      const nome = document.getElementById("nome").value;
-      const azione = document.getElementById("punteggio").value;
-      const ammontarePunti = parseInt(document.getElementById("ammontarePunti").value);
-
-      let punteggioAggiunto = 0;
-
-      if (azione === "add") {
-        punteggioAggiunto = ammontarePunti;
-      } else if (azione === "subtract") {
-        punteggioAggiunto = -ammontarePunti;
-      }
-
-      // Aggiungi i dati al database Firebase
-      classificaRef.push({ posizione: "", nome: nome, punteggio: punteggioAggiunto });
-
-      // Pulisci e aggiorna la classifica
-      updateClassifica();
-     // Qui metti solo la parte dello script che aggiunge l'event listener
-  document.getElementById("assegnazionePunteggio").addEventListener("submit", function (event)
-    });
+    // Pulisci e aggiorna la classifica
+    updateClassifica();
+  });
   </script> 
  </body>
 </html>
