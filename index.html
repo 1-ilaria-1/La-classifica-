@@ -5,6 +5,28 @@
   <title>Berlino d'oro</title> <!-- Includi Firebase SDK tramite script --> 
   <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js"></script> 
   <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js"></script> 
+  <script>document.getElementById("assegnazionePunteggio").addEventListener("submit", function(event) {
+  event.preventDefault(); // Impedisce l'invio automatico del form
+
+  const nome = document.getElementById("nome").value;
+  const azione = document.getElementById("punteggio").value;
+  const ammontarePunti = parseInt(document.getElementById("ammontarePunti").value);
+
+  let punteggioAggiunto = 0;
+
+  if (azione === "add") {
+    punteggioAggiunto = ammontarePunti;
+  } else if (azione === "subtract") {
+    punteggioAggiunto = -ammontarePunti;
+  }
+
+  // Aggiungi i dati al database Firebase
+  classificaRef.push({ posizione: "", nome: nome, punteggio: punteggioAggiunto });
+
+  // Pulisci e aggiorna la classifica
+  updateClassifica();
+});
+   <script>
   <style>
     /* Stili CSS */
     body {
