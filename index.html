@@ -114,30 +114,39 @@
       // ... (il resto del tuo codice rimane invariato)
     });
 
-    // Aggiungi l'evento al form dopo che la pagina è stata caricata
-    window.addEventListener('load', function() {
-      document.getElementById("assegnazionePunteggio").addEventListener("submit", function (event) {
-        event.preventDefault();
+    <!-- Il tuo codice HTML rimane invariato -->
 
-        const nome = document.getElementById("nome").value;
-        const azione = document.getElementById("punteggio").value;
-        const ammontarePunti = parseInt(document.getElementById("ammontarePunti").value);
+<script>
+  // ... (Il tuo codice JavaScript rimane invariato fino alla parte successiva)
 
-        let punteggioAggiunto = 0;
+  // Aggiungi l'evento al form dopo che la pagina è stata caricata
+  window.addEventListener('load', function() {
+    document.getElementById("assegnazionePunteggio").addEventListener("submit", function (event) {
+      event.preventDefault();
 
-        if (azione === "add") {
-          punteggioAggiunto = ammontarePunti;
-        } else if (azione === "subtract") {
-          punteggioAggiunto = -ammontarePunti;
-        }
+      const nome = document.getElementById("nome").value;
+      const azione = document.getElementById("punteggio").value;
+      const ammontarePunti = parseInt(document.getElementById("ammontarePunti").value);
 
-        // Aggiungi i dati al database Firebase
-        classificaRef.push({ posizione: "", nome: nome, punteggio: punteggioAggiunto });
+      let punteggioAggiunto = 0;
 
-        // Pulisci e aggiorna la classifica
-        updateClassifica();
-      });
+      if (azione === "add") {
+        punteggioAggiunto = ammontarePunti;
+      } else if (azione === "subtract") {
+        punteggioAggiunto = -ammontarePunti;
+      }
+
+      // Aggiungi i dati al database Firebase
+      classificaRef.push({ posizione: "", nome: nome, punteggio: punteggioAggiunto })
+        .then(() => {
+          // Dopo aver aggiunto i dati, aggiorna la classifica
+          updateClassifica();
+        })
+        .catch((error) => {
+          console.error("Errore nell'aggiunta dei dati:", error);
+        });
     });
-  </script> 
- </body>
+  });
+</script>
+</body>
 </html>
