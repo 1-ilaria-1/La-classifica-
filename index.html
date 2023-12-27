@@ -1,35 +1,13 @@
-<!doctype html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <!doctype html>
 <html lang="it"> 
  <head> 
   <meta charset="UTF-8"> 
   <title>Berlino d'oro</title> <!-- Includi Firebase SDK tramite script --> 
   <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js"></script> 
   <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js"></script> 
-  <script>document.getElementById("assegnazionePunteggio").addEventListener("submit", function(event) {
-  event.preventDefault(); // Impedisce l'invio automatico del form
-
-  const nome = document.getElementById("nome").value;
-  const azione = document.getElementById("punteggio").value;
-  const ammontarePunti = parseInt(document.getElementById("ammontarePunti").value);
-
-  let punteggioAggiunto = 0;
-
-  if (azione === "add") {
-    punteggioAggiunto = ammontarePunti;
-  } else if (azione === "subtract") {
-    punteggioAggiunto = -ammontarePunti;
-  }
-
-  // Aggiungi i dati al database Firebase
-  classificaRef.push({ posizione: "", nome: nome, punteggio: punteggioAggiunto });
-
-  // Pulisci e aggiorna la classifica
-  updateClassifica();
-});
-   </script>
   
   <style>
-    /* Stili CSS */
+        /* Stili CSS */
     body {
             font-family: "Times New Roman", Times, serif;
             margin: 20px;
@@ -95,11 +73,12 @@
  </head> 
  <body> 
   <h1>Classifica Gita Scolastica</h1> 
-  <form id="assegnazionePunteggio"> <label for="nome">Seleziona il nome:</label> <select id="nome" name="nome"> <option value="andrea">Andrea</option> <option value="giulia">Giulia</option> <option value="greta">Greta</option> <option value="sara">Sara</option> <option value="livia">Livia</option> <option value="lucrezia">Lucrezia</option> <option value="noemi">Noemi</option> <option value="martina">Martina</option> <option value="sharon">Sharon</option> <option value="aurora">Aurora</option> <option value="elena">Elena</option> <option value="niccolo">Niccolò</option> <option value="lucia">Lucia</option> <option value="elisa">Elisa</option> <option value="melissa">Melissa</option> <option value="clara">Clara</option> <option value="chiara">Chiara</option> <option value="matilde">Matilde</option> <option value="irene">Irene</option> <option value="alessia">Alessia</option> </select> <label for="punteggio">Seleziona l'azione:</label> <select id="punteggio" name="punteggio"> <option value="add">Aggiungi punti</option> <option value="subtract">Sottrai punti</option> </select> 
+  <form id="assegnazionePunteggio"> 
+  <label for="nome">Seleziona il nome:</label> <select id="nome" name="nome"> <option value="andrea">Andrea</option> <option value="giulia">Giulia</option> <option value="greta">Greta</option> <option value="sara">Sara</option> <option value="livia">Livia</option> <option value="lucrezia">Lucrezia</option> <option value="noemi">Noemi</option> <option value="martina">Martina</option> <option value="sharon">Sharon</option> <option value="aurora">Aurora</option> <option value="elena">Elena</option> <option value="niccolo">Niccolò</option> <option value="lucia">Lucia</option> <option value="elisa">Elisa</option> <option value="melissa">Melissa</option> <option value="clara">Clara</option> <option value="chiara">Chiara</option> <option value="matilde">Matilde</option> <option value="irene">Irene</option> <option value="alessia">Alessia</option> </select> <label for="punteggio">Seleziona l'azione:</label> <select id="punteggio" name="punteggio"> <option value="add">Aggiungi punti</option> <option value="subtract">Sottrai punti</option> </select> 
    <input type="number" id="ammontarePunti" name="ammontarePunti" placeholder="Inserisci l'ammontare punti"> 
    <input type="submit" value="Assegna Punteggio"> 
   </form> 
-  <table id="classifica"> 
+  <table id="classifica">
    <thead> 
     <tr> 
      <th>Posizione classifica</th> 
@@ -109,10 +88,11 @@
    </thead> 
    <tbody></tbody> 
   </table> 
+
   <script>
     // Includi Firebase SDK
     const firebaseConfig = {
-      apiKey: "AIzaSyCly7BjQ1tzE1j_fFyo0N9vHdFwJ-bb9EE",
+        apiKey: "AIzaSyCly7BjQ1tzE1j_fFyo0N9vHdFwJ-bb9EE",
   authDomain: "classifica-d3ede.firebaseapp.com",
   databaseURL: "https://classifica-d3ede-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "classifica-d3ede",
@@ -122,31 +102,42 @@
   measurementId: "G-K7QC5SDTMY"
     };
 
-    // Includi Firebase SDK e il resto dello script rimane invariato
-   
-  // Recupera dati da Firebase e popola la classifica, il resto rimane invariato
+    // Inizializza Firebase
+    firebase.initializeApp(firebaseConfig);
 
-  document.getElementById("assegnazionePunteggio").addEventListener("submit", function (event) {
-    event.preventDefault();
+    // Riferimento al database
+    const db = firebase.database();
+    const classificaRef = db.ref('classifica');
 
-    const nome = document.getElementById("nome").value;
-    const azione = document.getElementById("punteggio").value;
-    const ammontarePunti = parseInt(document.getElementById("ammontarePunti").value);
+    // Recupera dati da Firebase e popola la classifica
+    classificaRef.once('value', (snapshot) => {
+      // ... (il resto del tuo codice rimane invariato)
+    });
 
-    let punteggioAggiunto = 0;
+    // Aggiungi l'evento al form dopo che la pagina è stata caricata
+    window.addEventListener('load', function() {
+      document.getElementById("assegnazionePunteggio").addEventListener("submit", function (event) {
+        event.preventDefault();
 
-    if (azione === "add") {
-      punteggioAggiunto = ammontarePunti;
-    } else if (azione === "subtract") {
-      punteggioAggiunto = -ammontarePunti;
-    }
+        const nome = document.getElementById("nome").value;
+        const azione = document.getElementById("punteggio").value;
+        const ammontarePunti = parseInt(document.getElementById("ammontarePunti").value);
 
-    // Aggiungi i dati al database Firebase
-    classificaRef.push({ posizione: "", nome: nome, punteggio: punteggioAggiunto });
+        let punteggioAggiunto = 0;
 
-    // Pulisci e aggiorna la classifica
-    updateClassifica();
-  });
+        if (azione === "add") {
+          punteggioAggiunto = ammontarePunti;
+        } else if (azione === "subtract") {
+          punteggioAggiunto = -ammontarePunti;
+        }
+
+        // Aggiungi i dati al database Firebase
+        classificaRef.push({ posizione: "", nome: nome, punteggio: punteggioAggiunto });
+
+        // Pulisci e aggiorna la classifica
+        updateClassifica();
+      });
+    });
   </script> 
  </body>
 </html>
