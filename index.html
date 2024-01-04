@@ -1,105 +1,45 @@
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <!doctype html>
-<html lang="it"> 
- <head> 
-  <meta charset="UTF-8"> 
-  <title>Berlino d'oro</title> <!-- Includi Firebase SDK tramite script --> 
-  <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js"></script> 
-  <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js"></script> 
-  
-  <style>
-        /* Stili CSS */
-    body {
-            font-family: "Times New Roman", Times, serif;
-            margin: 20px;
-            background-color: #f5f5f5;
-        }
+                                                                                                                                                                                                                                                               <!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classifica</title>
+</head>
+<body>
+    <h1>Classifica</h1>
+    <table id="leaderboard">
+        <tr>
+            <th>Posizione</th>
+            <th>Nome</th>
+            <th>Punteggio</th>
+        </tr>
+    </table>
+    <form id="assegnazionePunteggio">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required>
+        <label for="punteggio">Azione:</label>
+        <select id="punteggio" name="punteggio">
+            <option value="add">Aggiungi punti</option>
+            <option value="subtract">Sottrai punti</option>
+        </select>
+        <label for="ammontarePunti">Ammontare punti:</label>
+        <input type="number" id="ammontarePunti" name="ammontarePunti" min="1" required>
+        <button type="submit">Aggiorna classifica</button>
+    </form>
 
-        h1 {
-            text-align: center;
-            color: #333;
-        }
+    <script src="https://www.gstatic.com/firebasejs/9.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.8/firebase-database.js"></script>
 
-        #assegnazionePunteggio,
-        #classifica {
-            float: left;
-            margin-right: 20px;
-            background-color: gold; /* Modifica del colore a oro */
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #333; /* Colore testo modificato */
-        }
-
-        select,
-        input[type="submit"] {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        #classifica {
-            overflow: auto;
-            background-color: gold; /* Modifica del colore a oro */
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-family: "Times New Roman", Times, serif; /* Modifica del font */
-        }
-
-        th, td {
-            border-bottom: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-  </style> 
- </head> 
- <body> 
-  <h1>Classifica Gita Scolastica</h1> 
-  <form id="assegnazionePunteggio"> 
-  <label for="nome">Seleziona il nome:</label> <select id="nome" name="nome"> <option value="andrea">Andrea</option> <option value="giulia">Giulia</option> <option value="greta">Greta</option> <option value="sara">Sara</option> <option value="livia">Livia</option> <option value="lucrezia">Lucrezia</option> <option value="noemi">Noemi</option> <option value="martina">Martina</option> <option value="sharon">Sharon</option> <option value="aurora">Aurora</option> <option value="elena">Elena</option> <option value="niccolo">Niccolò</option> <option value="lucia">Lucia</option> <option value="elisa">Elisa</option> <option value="melissa">Melissa</option> <option value="clara">Clara</option> <option value="chiara">Chiara</option> <option value="matilde">Matilde</option> <option value="irene">Irene</option> <option value="alessia">Alessia</option> </select> <label for="punteggio">Seleziona l'azione:</label> <select id="punteggio" name="punteggio"> <option value="add">Aggiungi punti</option> <option value="subtract">Sottrai punti</option> </select> 
-   <input type="number" id="ammontarePunti" name="ammontarePunti" placeholder="Inserisci l'ammontare punti"> 
-   <input type="submit" value="Assegna Punteggio"> 
-  </form> 
-  <table id="classifica">
-   <thead> 
-    <tr> 
-     <th>Posizione classifica</th> 
-     <th>Nome</th> 
-     <th>Punteggio</th> 
-    </tr> 
-   </thead> 
-   <tbody></tbody> 
-  </table> 
-
-  <script>
-    // Includi Firebase SDK
+    <script>
     const firebaseConfig = {
-        apiKey: "AIzaSyCly7BjQ1tzE1j_fFyo0N9vHdFwJ-bb9EE",
-  authDomain: "classifica-d3ede.firebaseapp.com",
-  databaseURL: "https://classifica-d3ede-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "classifica-d3ede",
-  storageBucket: "classifica-d3ede.appspot.com",
-  messagingSenderId: "994509368139",
-  appId: "1:994509368139:web:9ee6665b6b26fafd8756ce",
-  measurementId: "G-K7QC5SDTMY"
+      apiKey: "AIzaSyCXNzCQRVyJFmQvfJ0aIeBs-_WmRnVbWQ",
+      authDomain: "classifica-d3ede.firebaseapp.com",
+      databaseURL: "https://classifica-d3ede-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "classifica-d3ede",
+      storageBucket: "classifica-d3ede.appspot.com",
+      messagingSenderId: "994509368139",
+      appId: "1:994509368139:web:9ee6665b6b26fafd8756ce",
+      measurementId: "G-K7QC5SDTMY"
     };
 
     // Inizializza Firebase
@@ -109,39 +49,62 @@
     const db = firebase.database();
     const classificaRef = db.ref('classifica');
 
-    // Recupera dati da Firebase e popola la classifica
-    classificaRef.once('value', (snapshot) => {
-      // ... (il resto del tuo codice rimane invariato)
-    });
-
-      // Aggiungi l'evento al form dopo che la pagina è stata caricata
-  window.addEventListener('load', function() {
-    document.getElementById("assegnazionePunteggio").addEventListener("submit", function (event) {
-      event.preventDefault();
-
-      const nome = document.getElementById("nome").value;
-      const azione = document.getElementById("punteggio").value;
-      const ammontarePunti = parseInt(document.getElementById("ammontarePunti").value);
-
-      let punteggioAggiunto = 0;
-
-      if (azione === "add") {
-        punteggioAggiunto = ammontarePunti;
-      } else if (azione === "subtract") {
-        punteggioAggiunto = -ammontarePunti;
-      }
-
-      // Aggiungi i dati al database Firebase
-      classificaRef.push({ posizione: "", nome: nome, punteggio: punteggioAggiunto })
-        .then(() => {
-          // Dopo aver aggiunto i dati, aggiorna la classifica
-          updateClassifica();
-        })
-        .catch((error) => {
-          console.error("Errore nell'aggiunta dei dati:", error);
+    // Funzione per aggiornare la classifica
+    function updateClassifica() {
+      classificaRef.once('value', (snapshot) => {
+        let i = 1;
+        const leaderboard = document.getElementById('leaderboard');
+        leaderboard.innerHTML = `
+          <tr>
+            <th>Posizione</th>
+            <th>Nome</th>
+            <th>Punteggio</th>
+          </tr>`;
+        snapshot.forEach((childSnapshot) => {
+          const childData = childSnapshot.val();
+          leaderboard.innerHTML += `
+            <tr>
+              <td>${i}</td>
+              <td>${childData.nome}</td>
+              <td>${childData.punteggio}</td>
+            </tr>`;
+          i++;
         });
+      });
+    }
+
+    // Aggiorna la classifica quando la pagina viene caricata
+    updateClassifica();
+
+    // Aggiungi l'evento al form dopo che la pagina è stata caricata
+    window.addEventListener('load', function() {
+      document.getElementById("assegnazionePunteggio").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const nome = document.getElementById("nome").value;
+        const azione = document.getElementById("punteggio").value;
+        const ammontarePunti
+            // Inserisci un nuovo giocatore con il punteggio assegnato o aggiorna il punteggio di un giocatore esistente
+    classificaRef.child(nome).update({
+      nome: nome,
+      punteggio: azione === 'add' ? ammontarePunti : -ammontarePunti
     });
+
+    // Pulisci il form
+    document.getElementById("nome").value = '';
+    document.getElementById("punteggio").value = 'add';
+    document.getElementById("ammontarePunti").value = 1;
+
+    // Aggiorna la classifica
+    updateClassifica();
   });
+});
+
+// Scollega l'applicazione dal database quando la finestra viene chiusa
+window.addEventListener('beforeunload', function() {
+  firebase.database().goOffline();
+});
+
 </script>
 </body>
 </html>
